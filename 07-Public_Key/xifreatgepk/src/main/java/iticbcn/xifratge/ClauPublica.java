@@ -51,8 +51,9 @@ public class ClauPublica {
     public String desxifraRSA(byte[]msgXifrat, PrivateKey ClauPrivada)throws Exception{
         Cipher desxifraCipher= Cipher.getInstance("RSA");
         desxifraCipher.init(Cipher.DECRYPT_MODE, ClauPrivada);
-        //aqui esta el mensaje cifrado
+        //aqui esta el mensaje cifrado y al hacer uso de desxifraCipher estamos decifrando
         byte[] msgDecrypt=desxifraCipher.doFinal(msgXifrat);
+        //como tenemos que devolver el mensaje original hay que pasarlo a String.
         String decryptmsg=new String(msgDecrypt, StandardCharsets.UTF_8);
         return decryptmsg;
         
