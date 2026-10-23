@@ -18,7 +18,7 @@ public class ClauPublica {
         System.out.println("Text xifrat: ");
         System.out.println(DatatypeConverter.printHexBinary(msgXifrat));
         
-        String msgDesxifrat = cp.desxifratRSA(msgXifrat,parellClaus.getPrivate());
+        String msgDesxifrat = cp.desxifraRSA(msgXifrat,parellClaus.getPrivate());
         System.out.println("=========================================");
         System.out.println("Text desxifrat: "+ msgDesxifrat);
         
@@ -39,16 +39,22 @@ public class ClauPublica {
     }
     
     public byte[] xifraRSA(String msg, PublicKey clauPublica) throws Exception{
-        Cipher encrypteCipher=Cipher.getInstance("RSA");
-        encrypteCipher.init(Cipher.ENCRYPT_MODE, clauPublica);
+        Cipher xifraCipher=Cipher.getInstance("RSA");
+        xifraCipher.init(Cipher.ENCRYPT_MODE, clauPublica);
         //aqui esta el mensaje secreto
         byte[] msgSecret=msg.getBytes(StandardCharsets.UTF_8);
         //aqui se cifra el mensaje
-        byte[] msgEncrypte=encrypteCipher.doFinal(msgSecret);
+        byte[] msgEncrypte=xifraCipher.doFinal(msgSecret);
         // devolvemos el mensaje cifrado 
         return  msgEncrypte;
     }
-    public String desxifraRSA(byte[]msgXifrat, PrivateKey ClauPrivada){
+    public String desxifraRSA(byte[]msgXifrat, PrivateKey ClauPrivada)throws Exception{
+        Cipher desxifraCipher= Cipher.getInstance("RSA");
+        desxifraCipher.init(Cipher.DECRYPT_MODE, ClauPrivada);
+        //aqui esta el mensaje cifrado
+        byte[] msgDecrypt=desxifraCipher.doFinal(msgXifrat);
+        String decryptmsg=new String(msgDecrypt, StandardCharsets.UTF_8);
+        return decryptmsg;
         
     }
 }
